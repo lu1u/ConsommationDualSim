@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+Refer to App Widget Documentation for margin information
+http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
+    -->
+    <dimen name="widget_margin">8dp</dimen>
+    <!-- Standart dimens for the color wheel -->
+    <dimen name="color_wheel_radius">80dp</dimen>
+    <dimen name="color_wheel_thickness">12dp</dimen>
+    <dimen name="color_center_halo_radius">60dp</dimen>
+    <dimen name="color_center_radius">36dp</dimen>
+    <dimen name="color_pointer_halo_radius">20dp</dimen>
+    <dimen name="color_pointer_radius">16dp</dimen>
+
+    <!-- Standart dimens for the bars -->
+    <dimen name="bar_thickness">20dp</dimen>
+    <dimen name="bar_length">200dp</dimen>
+    <dimen name="bar_pointer_radius">14dp</dimen>
+    <dimen name="bar_pointer_halo_radius">18dp</dimen>
+    <dimen name="hauteur_bouton_couleur">32dp</dimen>
+    <dimen name="marge_bas_cosmetique">12dp</dimen>
+    <dimen name="marge_fin_cosmetique">20dp</dimen>
+
+    <!--- Dessin des jauges -->
+    <dimen name="inset_jauge">2dp</dimen>
+    <dimen name="inset_date">2dp</dimen>
+    <dimen name="inset_conso">3dp</dimen>
+    <dimen name="hauteur_toggle_button">48dp</dimen>
+
+</resources>

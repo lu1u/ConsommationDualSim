@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialogborder"
+        android:orientation="vertical"
+        android:paddingBottom="32dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp">
+
+        <pilloni.lucien.consommationdualsim.colorpicker.ColorPicker
+            android:id="@+id/colorPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="2"
+            android:rowCount="5">
+
+            <pilloni.lucien.consommationdualsim.colorpicker.SaturationBar
+                android:id="@+id/saturationBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_gravity="right|center_vertical"
+                android:layout_row="0"/>
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_column="0"
+                android:layout_gravity="left|center_vertical"
+                android:layout_row="0"
+                android:text="@string/saturation"/>
+
+            <pilloni.lucien.consommationdualsim.colorpicker.ValueBar
+                android:id="@+id/valueBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_gravity="right|center_vertical"
+                android:layout_row="1"/>
+
+            <pilloni.lucien.consommationdualsim.colorpicker.OpacityBar
+                android:id="@+id/opacityBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_gravity="right|center_vertical"
+                android:layout_row="2"/>
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_column="0"
+                android:layout_gravity="left|center_vertical"
+                android:layout_row="1"
+                android:text="@string/valeur"/>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_column="0"
+                android:layout_gravity="left|center_vertical"
+                android:layout_row="2"
+                android:text="@string/transparence"/>
+        </GridLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_margin="1dp"
+                    android:layout_weight="0.2"
+                    android:background="#f44336"
+                    android:onClick="onClickBoutonCouleur"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_margin="1dp"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#E91E63"
+                    android:onClick="onClickBoutonCouleur"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_margin="1dp"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#9C27B0"
+                    android:onClick="onClickBoutonCouleur"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_margin="1dp"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#673AB7"
+                    android:onClick="onClickBoutonCouleur"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_margin="1dp"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#3F51B5"
+                    android:onClick="onClickBoutonCouleur"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_margin="1dp"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#2196F3"
+                    android:onClick="onClickBoutonCouleur"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_margin="1dp"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#03A9F4"
+                    android:onClick="onClickBoutonCouleur"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_margin="1dp"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#00BCD4"
+                    android:onClick="onClickBoutonCouleur"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_margin="1dp"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#009688"
+                    android:onClick="onClickBoutonCouleur"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_margin="1dp"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#4CAF50"
+                    android:onClick="onClickBoutonCouleur"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_margin="1dp"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#8BC34A"
+                    android:onClick="onClickBoutonCouleur"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#CDDC39"
+                    android:onClick="onClickBoutonCouleur"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_margin="1dp"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#FFEB3B"
+                    android:onClick="onClickBoutonCouleur"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_margin="1dp"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#FFC107"
+                    android:onClick="onClickBoutonCouleur"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_margin="1dp"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#FF9800"
+                    android:onClick="onClickBoutonCouleur"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_margin="1dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#FF5722"
+                    android:onClick="onClickBoutonCouleur"/>
+
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_margin="1dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#795548"
+                    android:onClick="onClickBoutonCouleur"/>
+
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_margin="1dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#9E9E9E"
+                    android:onClick="onClickBoutonCouleur"/>
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_margin="1dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#607D8B"
+                    android:onClick="onClickBoutonCouleur"/>
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_margin="1dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/hauteur_bouton_couleur"
+                    android:layout_weight="0.2"
+                    android:background="#000"
+                    android:onClick="onClickBoutonCouleur"/>
+            </TableRow>
+
+        </TableLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_horizontal"
+        android:gravity="bottom">
+
+        <Button
+            android:id="@+id/button2"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="0.5"
+            android:onClick="OnAnnuler"
+            android:text="@string/annuler"/>
+
+        <Button
+            android:id="@+id/button1"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:onClick="OnOK"
+            android:text="@string/ok"/>
+    </LinearLayout>
+</LinearLayout>

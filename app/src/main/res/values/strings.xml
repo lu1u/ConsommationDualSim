@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">1 Consommation Dual Sim</string>
+    <string name="add_widget">Valider</string>
+    <string name="saturation">Saturation:</string>
+    <string name="valeur">Valeur:</string>
+    <string name="transparence">Transparence:</string>
+    <string name="annuler">Annuler</string>
+    <string name="ok">OK</string>
+    <string name="sim_1">SIM 1:</string>
+    <string name="nom_de_l_abonnement">Nom de l\'abonnement</string>
+    <string name="sim1">SIM1</string>
+    <string name="minutes">Minutes:</string>
+    <string name="nb_de_minutes_de_l_abonnement">Nb de minutes de l\'abonnement</string>
+    <string name="jour_de_d_but">Jour de début:</string>
+    <string name="couleur">Couleur</string>
+    <string name="sim_2">SIM 2:</string>
+    <string name="sim2">SIM2</string>
+    <string name="arrondi">Arrondi:</string>
+    <string name="texte">Texte:</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+</resources>
