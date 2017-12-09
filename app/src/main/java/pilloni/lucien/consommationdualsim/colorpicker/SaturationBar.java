@@ -15,7 +15,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import  pilloni.lucien.consommationdualsim.R;
+import pilloni.lucien.consommationdualsim.R;
 
 public class SaturationBar extends View
 {
@@ -142,7 +142,7 @@ public class SaturationBar extends View
 
 	public interface OnSaturationChangedListener
 	{
-		public void onSaturationChanged(int saturation);
+		void onSaturationChanged(int saturation);
 	}
 
 	public void setOnSaturationChangedListener(OnSaturationChangedListener listener)

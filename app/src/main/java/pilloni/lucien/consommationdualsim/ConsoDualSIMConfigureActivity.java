@@ -5,16 +5,17 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+import android.widget.ViewFlipper;
 
 import pilloni.lucien.consommationdualsim.colorpicker.ColorPickerActivity;
 
@@ -23,8 +24,9 @@ import pilloni.lucien.consommationdualsim.colorpicker.ColorPickerActivity;
  */
 public class ConsoDualSIMConfigureActivity extends Activity {
 
-	public static final String PREFS_NAME = "pilloni.lucien.consommationdualsim.ConsoDualSIM";
+	public static  ConsoDualSIMConfigureActivity _instance;
 
+	public static final String PREFS_NAME = "ConsoDualSim";
 	public static final String PREF_NOM = "NOM";
 	public static final String PREF_NB_MINUTES = "NB MINUTES";
 	public static final String PREF_DEBUT_ABO = "DEBUT ABO";
@@ -32,7 +34,7 @@ public class ConsoDualSIMConfigureActivity extends Activity {
 	public static final String PREF_TRANSPARENCE = "TRANSPARENCE";
 	public static final String PREF_ARRONDI = "ARRONDI";
 	public static final String PREF_TEXTE = "TEXTE";
-
+	public static final String PREF_SUBID = "SUBID";
 	public static final int TEXTE_GAUCHE = 0;
 	public static final int TEXTE_CENTRE = 1;
 	public static final int TEXTE_DROITE = 2;
@@ -43,8 +45,9 @@ public class ConsoDualSIMConfigureActivity extends Activity {
 
 	public static final String COULEUR_SIM1 = "couleurSim1"; //$NON-NLS-1$
 	public static final String COULEUR_SIM2 = "couleurSim2"; //$NON-NLS-1$
+	int couleurSIM[] = new int[2];
 	int _alignement;
-	//EditText mAppWidgetText;
+
 	View.OnClickListener mOnClickListener = new View.OnClickListener() {
 		public void onClick(View v)
 		{
@@ -53,8 +56,8 @@ public class ConsoDualSIMConfigureActivity extends Activity {
 			SharedPreferences.Editor prefEditor = pref.edit();
 
 			// When the button is clicked, store the string locally
-			saveConfig(prefEditor, 1, R.id.editTextNomSIM1, R.id.editTextNbMinutesSIM1, R.id.spinnerDebutSIM1, R.id.buttonCouleurSIM1);
-			saveConfig(prefEditor, 2, R.id.editTextNomSIM2, R.id.editTextNbMinutesSIM2, R.id.spinnerDebutSIM2, R.id.buttonCouleurSIM2);
+			saveConfig(prefEditor, 1, R.id.editTextNomSIM, R.id.editTextNbMinutesSIM1, R.id.spinnerDebutSIM1, R.id.editTextSubscriptionID1);
+			saveConfig(prefEditor, 2, R.id.editTextNomSIM2, R.id.editTextNbMinutesSIM2, R.id.spinnerDebutSIM2, R.id.editTextSubscriptionID2);
 
 			prefEditor.putInt(PREF_TRANSPARENCE, ((SeekBar) findViewById(R.id.seekBarTransparence)).getProgress());
 			prefEditor.putInt(PREF_ARRONDI, ((SeekBar) findViewById(R.id.seekBarArrondi)).getProgress());
@@ -71,7 +74,6 @@ public class ConsoDualSIMConfigureActivity extends Activity {
 			resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
 			setResult(RESULT_OK, resultValue);
 
-
 			finish();
 		}
 	};
@@ -81,10 +83,33 @@ public class ConsoDualSIMConfigureActivity extends Activity {
 		super();
 	}
 
+	/**
+	 * Callback for the result from requesting permissions. This method
+	 * is invoked for every call on {@link #requestPermissions(String[], int)}.
+	 * <p>
+	 * <strong>Note:</strong> It is possible that the permissions request interaction
+	 * with the user is interrupted. In this case you will receive empty permissions
+	 * and results arrays which should be treated as a cancellation.
+	 * </p>
+	 *
+	 * @param requestCode  The request code passed in {@link #requestPermissions(String[], int)}.
+	 * @param permissions  The requested permissions. Never null.
+	 * @param grantResults The grant results for the corresponding permissions
+	 *                     which is either {@link PackageManager#PERMISSION_GRANTED}
+	 *                     or {@link PackageManager#PERMISSION_DENIED}. Never null.
+	 * @see #requestPermissions(String[], int)
+	 */
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+	{
+		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+		ConsoDualSIM.updateAppWidget(this, appWidgetManager, mAppWidgetId);
+	}
 
 	@Override
 	public void onCreate(Bundle icicle)
 	{
+		_instance = this;
 		super.onCreate(icicle);
 
 		// Set the result to CANCELED.  This will cause the widget host to cancel
@@ -111,8 +136,8 @@ public class ConsoDualSIMConfigureActivity extends Activity {
 			return;
 		}
 
-		loadConfig(1, R.id.editTextNomSIM1, R.id.editTextNbMinutesSIM1, R.id.spinnerDebutSIM1, R.id.buttonCouleurSIM1);
-		loadConfig(2, R.id.editTextNomSIM2, R.id.editTextNbMinutesSIM2, R.id.spinnerDebutSIM2, R.id.buttonCouleurSIM2);
+		loadConfig(1, R.id.editTextNomSIM, R.id.editTextNbMinutesSIM1, R.id.spinnerDebutSIM1, R.id.buttonCouleurSIM1, R.id.editTextSubscriptionID1);
+		loadConfig(2, R.id.editTextNomSIM2, R.id.editTextNbMinutesSIM2, R.id.spinnerDebutSIM2, R.id.buttonCouleurSIM2,  R.id.editTextSubscriptionID2);
 
 		SharedPreferences pref = getSharedPreferences(PREFS_NAME, 0);
 
@@ -135,6 +160,7 @@ public class ConsoDualSIMConfigureActivity extends Activity {
 		_alignement = pref.getInt(PREF_TEXTE, 0);
 		checkToggleButton(_alignement);
 
+		SIMS.getConsommation(this, 1, 25);
 	}
 
 	/***
@@ -144,27 +170,43 @@ public class ConsoDualSIMConfigureActivity extends Activity {
 	 * @param editTextNbMinutesSIM
 	 * @param spinnerDebutSIM
 	 */
-	private void loadConfig(int simNb, int editTextNomSIM, int editTextNbMinutesSIM, int spinnerDebutSIM, int button)
+	private void loadConfig(int simNb, int editTextNomSIM, int editTextNbMinutesSIM, int spinnerDebutSIM, int button, int subId)
 	{
 		SharedPreferences pref = getSharedPreferences(PREFS_NAME, 0);
 
 		TextView nom = (TextView) findViewById(editTextNomSIM);
 		TextView nb = (TextView) findViewById(editTextNbMinutesSIM);
+		TextView sub = (TextView) findViewById(subId);
 		Spinner spinner = (Spinner) findViewById(spinnerDebutSIM);
 
 		nom.setText(pref.getString(PREF_NOM + simNb, "sans nom " + simNb));
 		nb.setText("" + pref.getInt(PREF_NB_MINUTES + simNb, 120));
+		sub.setText("" + pref.getInt(PREF_SUBID + simNb, simNb));
 
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.jours, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
 		spinner.setSelection(pref.getInt(PREF_DEBUT_ABO + simNb, 1) - 1);
 
-		int couleur = getResources().getColor(simNb == 1 ? R.color.SIM1 : R.color.SIM2);
-		couleur = pref.getInt(PREF_COULEUR + simNb, couleur);
-		findViewById(button).setBackgroundColor(couleur);
+		couleurSIM[simNb-1] = getResources().getColor(simNb == 1 ? R.color.SIM1 : R.color.SIM2);
+		couleurSIM[simNb-1] = pref.getInt(PREF_COULEUR + simNb, couleurSIM[simNb-1]);
+		findViewById(button).setBackgroundColor(couleurSansAlpha(couleurSIM[simNb-1]));
 	}
 
+	/***
+	 * Retourne une couleur sans sa composante de transparence
+	 * @param couleur
+	 * @return
+	 */
+	private int couleurSansAlpha(int couleur)
+	{
+		return Color.argb(255, Color.red(couleur), Color.green(couleur), Color.blue(couleur));
+	}
+
+	/***
+	 * Coche ou decoche le radio bouton correspondant a l'option de cadrage du texte
+	 * @param toggledButton
+	 */
 	private void checkToggleButton(int toggledButton)
 	{
 		((ToggleButton) findViewById(R.id.toggleButtonDroite)).setChecked(toggledButton == TEXTE_DROITE);
@@ -180,17 +222,19 @@ public class ConsoDualSIMConfigureActivity extends Activity {
 	 * @param editTextNbMinutesSIM
 	 * @param spinnerDebutSIM
 	 */
-	private void saveConfig(SharedPreferences.Editor prefEditor, int simNb, int editTextNomSIM, int editTextNbMinutesSIM, int spinnerDebutSIM, int buttonColorId)
+	private void saveConfig(SharedPreferences.Editor prefEditor, int simNb, int editTextNomSIM, int editTextNbMinutesSIM, int spinnerDebutSIM, int editSubId)
 	{
 
 		TextView nom = (TextView) findViewById(editTextNomSIM);
 		TextView nb = (TextView) findViewById(editTextNbMinutesSIM);
+		TextView subid = (TextView) findViewById(editSubId);
 		Spinner spinner = (Spinner) findViewById(spinnerDebutSIM);
-		Button button = (Button) findViewById(buttonColorId);
 		prefEditor.putString(PREF_NOM + simNb, nom.getText().toString());
 		prefEditor.putInt(PREF_NB_MINUTES + simNb, Integer.valueOf(nb.getText().toString()));
 		prefEditor.putInt(PREF_DEBUT_ABO + simNb, spinner.getSelectedItemPosition() + 1);
-		prefEditor.putInt(PREF_COULEUR + simNb, ((ColorDrawable) button.getBackground()).getColor());
+		prefEditor.putInt(PREF_COULEUR + simNb, couleurSIM[simNb-1]);
+		prefEditor.putInt(PREF_SUBID + simNb, Integer.valueOf(subid.getText().toString()));
+
 	}
 
 	/***
@@ -202,8 +246,7 @@ public class ConsoDualSIMConfigureActivity extends Activity {
 		Intent it = new Intent(this, ColorPickerActivity.class);
 		it.putExtra(ColorPickerActivity.TYPE_COULEUR, COULEUR_SIM1);
 
-		Button button = (Button) findViewById(R.id.buttonCouleurSIM1);
-		it.putExtra(ColorPickerActivity.COULEUR, ((ColorDrawable) button.getBackground()).getColor());
+		it.putExtra(ColorPickerActivity.COULEUR, couleurSIM[0]);
 
 		startActivityForResult(it, ColorPickerActivity.RESULT_CODE_COULEUR);
 	}
@@ -216,8 +259,7 @@ public class ConsoDualSIMConfigureActivity extends Activity {
 	{
 		Intent it = new Intent(this, ColorPickerActivity.class);
 		it.putExtra(ColorPickerActivity.TYPE_COULEUR, COULEUR_SIM2);
-		Button button = (Button) findViewById(R.id.buttonCouleurSIM2);
-		it.putExtra(ColorPickerActivity.COULEUR, ((ColorDrawable) button.getBackground()).getColor());
+		it.putExtra(ColorPickerActivity.COULEUR, couleurSIM[1]);
 
 		startActivityForResult(it, ColorPickerActivity.RESULT_CODE_COULEUR);
 	}
@@ -237,13 +279,13 @@ public class ConsoDualSIMConfigureActivity extends Activity {
 						String typeCouleur = data.getStringExtra(ColorPickerActivity.TYPE_COULEUR);
 						if (COULEUR_SIM1.equals(typeCouleur))
 						{
-							int couleur = data.getIntExtra(ColorPickerActivity.COULEUR, Color.RED);
-							findViewById(R.id.buttonCouleurSIM1).setBackgroundColor(couleur);
+							couleurSIM[0] = data.getIntExtra(ColorPickerActivity.COULEUR, Color.RED);
+							findViewById(R.id.buttonCouleurSIM1).setBackgroundColor(couleurSansAlpha(couleurSIM[0]));
 						}
 						else if (COULEUR_SIM2.equals(typeCouleur))
 						{
-							int couleur = data.getIntExtra(ColorPickerActivity.COULEUR, Color.BLUE);
-							findViewById(R.id.buttonCouleurSIM2).setBackgroundColor(couleur);
+							couleurSIM[1] = data.getIntExtra(ColorPickerActivity.COULEUR, Color.BLUE);
+							findViewById(R.id.buttonCouleurSIM2).setBackgroundColor(couleurSansAlpha(couleurSIM[1]));
 						}
 					}
 				break;
@@ -275,6 +317,37 @@ public class ConsoDualSIMConfigureActivity extends Activity {
 	{
 		_alignement = TEXTE_AUTO;
 		checkToggleButton(_alignement);
+	}
+
+	public void onClickPreferences(View v)
+	{
+		Intent i = new Intent(this, PreferencesActivity.class);
+		startActivity(i);
+	}
+
+	public void onClickSIM1(View v)
+	{
+		((ToggleButton)findViewById(R.id.toggleButtonSIM1)).setChecked(true);
+		((ToggleButton)findViewById(R.id.toggleButtonSIM2)).setChecked(false);
+
+		ViewFlipper vf = (ViewFlipper)findViewById(R.id.viewFlipperSIMS);
+		vf.setOutAnimation(this, R.anim.animation_out);
+		vf.setInAnimation(this, R.anim.animation_in);
+
+		vf.setDisplayedChild(0);
+
+	}
+
+	public void onClickSIM2(View v)
+	{
+		((ToggleButton)findViewById(R.id.toggleButtonSIM1)).setChecked(false);
+		((ToggleButton)findViewById(R.id.toggleButtonSIM2)).setChecked(true);
+
+		ViewFlipper vf = (ViewFlipper)findViewById(R.id.viewFlipperSIMS);
+		vf.setOutAnimation(this, R.anim.animation_out);
+		vf.setInAnimation(this, R.anim.animation_in);
+
+		vf.setDisplayedChild(1);
 	}
 }
 

@@ -15,7 +15,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import  pilloni.lucien.consommationdualsim.R;
+import pilloni.lucien.consommationdualsim.R;
 
 public class ValueBar extends View
 {
@@ -141,8 +141,10 @@ public class ValueBar extends View
 
 	public interface OnValueChangedListener
 	{
-		public void onValueChanged(int value);
+		void onValueChanged(int value);
 	}
+
+
 
 	public void setOnValueChangedListener(OnValueChangedListener listener)
 	{
@@ -482,11 +484,11 @@ public class ValueBar extends View
 	 * 
 	 * @return The ARGB value of the currently selected color.
 	 */
-	public int getColor()
+	/*public int getColor()
 	{
 		return mColor;
 	}
-
+*/
 	/**
 	 * Adds a {@code ColorPicker} instance to the bar. <br>
 	 * <br>

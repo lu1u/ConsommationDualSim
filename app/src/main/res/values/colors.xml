@@ -2,4 +2,7 @@
 <resources>
     <color name="SIM1">#88d81b60</color>
     <color name="SIM2">#8800acc1</color>
+
+    <color name="tabSIM1">#6777</color>
+    <color name="tabSIM2">#6bbb</color>
 </resources>

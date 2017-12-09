@@ -244,7 +244,7 @@ public class ColorPicker extends View
 	 */
 	public interface OnColorChangedListener
 	{
-		public void onColorChanged(int color);
+		void onColorChanged(int color);
 	}
 
 	/**
@@ -254,7 +254,7 @@ public class ColorPicker extends View
 	 */
 	public interface OnColorSelectedListener
 	{
-		public void onColorSelected(int color);
+		void onColorSelected(int color);
 	}
 
 	/**

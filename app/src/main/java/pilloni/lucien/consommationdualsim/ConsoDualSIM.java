@@ -18,6 +18,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -38,13 +39,18 @@ public class ConsoDualSIM extends AppWidgetProvider {
 	private static int lastState = TelephonyManager.CALL_STATE_IDLE;
 	private static boolean isIncoming;
 
-	static int INSET_JAUGE, INSET_DATE, INSET_CONSO ;
+	static int INSET_JAUGE, INSET_DATE, INSET_CONSO;
+	static boolean JAUGE_DEGRADE, FOND_NOIR;
+
 	static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
 	                            int appWidgetId)
 	{
-		INSET_JAUGE = (int) context.getResources().getDimension(R.dimen.inset_jauge) ;
-		INSET_DATE = (int) context.getResources().getDimension(R.dimen.inset_date) ;
-		INSET_CONSO = (int) context.getResources().getDimension(R.dimen.inset_conso) ;
+		SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
+		INSET_JAUGE = Integer.valueOf(SP.getString(context.getResources().getString(R.string.pref_inset_jauge), "2"));
+		INSET_CONSO = Integer.valueOf(SP.getString(context.getResources().getString(R.string.pref_inset_jauge_consommation), "4"));
+		INSET_DATE = Integer.valueOf(SP.getString(context.getResources().getString(R.string.pref_inset_jauge_date), "8"));
+		JAUGE_DEGRADE = SP.getBoolean(context.getResources().getString(R.string.pref_jauges_degradees), true);
+		FOND_NOIR = SP.getBoolean(context.getResources().getString(R.string.pref_fond_noir), false);
 		// Construct the RemoteViews object
 		Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
 		final int minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
@@ -52,7 +58,9 @@ public class ConsoDualSIM extends AppWidgetProvider {
 		final RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.conso_dual_sim);
 
 		SharedPreferences pref = context.getSharedPreferences(ConsoDualSIMConfigureActivity.PREFS_NAME, 0);
-		int color = Color.argb( (pref.getInt(ConsoDualSIMConfigureActivity.PREF_TRANSPARENCE,25)*255/100),255,255,255);
+		int color = FOND_NOIR ?
+				            Color.argb((pref.getInt(ConsoDualSIMConfigureActivity.PREF_TRANSPARENCE, 25) * 255 / 100), 0, 0, 0) :
+				            Color.argb((pref.getInt(ConsoDualSIMConfigureActivity.PREF_TRANSPARENCE, 25) * 255 / 100), 255, 255, 255);
 		rv.setInt(R.id.layout_main, "setBackgroundColor", color);
 		RegisterOnClickListener(context, rv, appWidgetId);
 		RegisterPhoneStateListener(context);
@@ -62,8 +70,19 @@ public class ConsoDualSIM extends AppWidgetProvider {
 			rv.setImageViewBitmap(R.id.imageView, construitBitmap(context, pref, minWidth, minHeight));
 			// Instruct the widget manager to update the widget
 			appWidgetManager.updateAppWidget(appWidgetId, rv);
-			//AppWidgetManager.getInstance(context).updateAppWidget(new ComponentName(context, ConsoDualSIM.class), rv);
 		}
+	}
+
+	@Override
+	public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions)
+	{
+		// This is how you get your changes.
+		/*int minWidth = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
+		int maxWidth = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
+		int minHeight = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
+		int maxHeight = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
+*/
+		updateAppWidget(context, appWidgetManager, appWidgetId);
 	}
 
 	/***
@@ -107,12 +126,13 @@ public class ConsoDualSIM extends AppWidgetProvider {
 	{
 		// Valeur de la jauge
 		String nom = pref.getString(ConsoDualSIMConfigureActivity.PREF_NOM + noSIM, "sans nom " + noSIM);
-		int nbMinutesMax = pref.getInt(ConsoDualSIMConfigureActivity.PREF_NB_MINUTES + noSIM, 120);
-		int debutAbo = pref.getInt(ConsoDualSIMConfigureActivity.PREF_DEBUT_ABO + noSIM, 1);
-		int nbMinutesConsommees = SIMS.getConsommation(context, noSIM, debutAbo);
-		int couleur = pref.getInt(ConsoDualSIMConfigureActivity.PREF_COULEUR + noSIM, context.getResources().getColor(noSIM == 1 ? R.color.SIM1 : R.color.SIM2));
-		float ratioRayon = (pref.getInt(ConsoDualSIMConfigureActivity.PREF_ARRONDI,25)/200.0f);
-		int alignement = pref.getInt(ConsoDualSIMConfigureActivity.PREF_TEXTE,0) ;
+		final int nbMinutesMax = pref.getInt(ConsoDualSIMConfigureActivity.PREF_NB_MINUTES + noSIM, 120);
+		final int debutAbo = pref.getInt(ConsoDualSIMConfigureActivity.PREF_DEBUT_ABO + noSIM, 1);
+		final int subscriptionID = pref.getInt(ConsoDualSIMConfigureActivity.PREF_SUBID + noSIM, 1);
+		final int nbMinutesConsommees = SIMS.getConsommation(context, subscriptionID, debutAbo);
+		final int couleur = pref.getInt(ConsoDualSIMConfigureActivity.PREF_COULEUR + noSIM, context.getResources().getColor(noSIM == 1 ? R.color.SIM1 : R.color.SIM2));
+		final float ratioRayon = (pref.getInt(ConsoDualSIMConfigureActivity.PREF_ARRONDI, 25) / 200.0f);
+		final int alignement = pref.getInt(ConsoDualSIMConfigureActivity.PREF_TEXTE, 0);
 
 		// Trace le fond de la jauge
 		{
@@ -151,9 +171,12 @@ public class ConsoDualSIM extends AppWidgetProvider {
 			Paint paint = new Paint();
 			paint.setAntiAlias(true);
 			paint.setStyle(Paint.Style.FILL);
-			int col = Color.argb(255, Color.red(couleur), Color.green(couleur), Color.blue(couleur)) ;
-			paint.setShadowLayer(2,2,2,Color.argb(100,0,0,0));
-			paint.setShader(new LinearGradient(rJaugeConso.left, rJaugeConso.top, rJaugeConso.left, rJaugeConso.bottom, clair(col), fonce(col), Shader.TileMode.CLAMP));
+			int col = Color.argb(255, Color.red(couleur), Color.green(couleur), Color.blue(couleur));
+			paint.setShadowLayer(2, 2, 2, Color.argb(100, 0, 0, 0));
+			if (JAUGE_DEGRADE)
+				paint.setShader(new LinearGradient(rJaugeConso.left, rJaugeConso.top, rJaugeConso.left, rJaugeConso.bottom, clair(col), fonce(col), Shader.TileMode.CLAMP));
+			else
+				paint.setColor(col);
 
 			rJaugeConso.right = rJaugeConso.left + (int) (rJaugeConso.width() * pourcent);
 			float rayon = Math.min(rJaugeConso.width(), rJaugeConso.height()) * ratioRayon;
@@ -167,7 +190,7 @@ public class ConsoDualSIM extends AppWidgetProvider {
 			paint.setAntiAlias(true);
 			paint.setStyle(Paint.Style.FILL);
 			paint.setColor(Color.WHITE);
-			paint.setShadowLayer(2,2,2,Color.argb(100,0,0,0));
+			paint.setShadowLayer(2, 2, 2, Color.argb(100, 0, 0, 0));
 			switch (alignement)
 			{
 				case ConsoDualSIMConfigureActivity.TEXTE_DROITE:
@@ -184,7 +207,7 @@ public class ConsoDualSIM extends AppWidgetProvider {
 
 				default:
 					// Automatique
-					if ( pourcent < 0.5 )
+					if (pourcent < 0.5)
 						paint.setTextAlign(Paint.Align.RIGHT);
 					else
 						paint.setTextAlign(Paint.Align.LEFT);
@@ -200,18 +223,17 @@ public class ConsoDualSIM extends AppWidgetProvider {
 	private static float calculProgressionDate(int debutAbo)
 	{
 		// Jour de debut de ce mois d'abonnement
-		Calendar dateDebut= SIMS.getMoisPrecedent(Calendar.getInstance(), debutAbo);
+		Calendar dateDebut = SIMS.getMoisPrecedent(Calendar.getInstance(), debutAbo);
 		// Jour de fin de ce mois d'abonnement
-		Calendar dateFin = (Calendar)dateDebut.clone();
+		Calendar dateFin = (Calendar) dateDebut.clone();
 		SIMS.MoisSuivant(dateFin);
 
 		long debut = dateDebut.getTimeInMillis();
 		long fin = dateFin.getTimeInMillis();
 		long maintenant = Calendar.getInstance().getTimeInMillis();
 
-		return (float)(maintenant-debut)/(float)(fin-debut);
+		return (float) (maintenant - debut) / (float) (fin - debut);
 	}
-
 
 
 	private static int clair(int c)
@@ -221,7 +243,7 @@ public class ConsoDualSIM extends AppWidgetProvider {
 
 	private static int composantClair(int c)
 	{
-		c = (int)(c + 1.7);
+		c = (int) (c + 1.7);
 		if (c > 255)
 			c = 255;
 		return c;
@@ -231,9 +253,10 @@ public class ConsoDualSIM extends AppWidgetProvider {
 	{
 		return Color.argb(Color.alpha(c), composantFonce(Color.red(c)), composantFonce(Color.green(c)), composantFonce(Color.blue(c)));
 	}
+
 	private static int composantFonce(int c)
 	{
-		return (int)(c * 0.2);
+		return (int) (c * 0.2);
 	}
 
 	public static void drawCenterText(String text, Rect rectF, Canvas canvas, Paint paint)
@@ -253,7 +276,7 @@ public class ConsoDualSIM extends AppWidgetProvider {
 		else
 		{
 			// Droite
-			x = rectF.right ;//- paint.measureText(text) / 2;
+			x = rectF.right;//- paint.measureText(text) / 2;
 		}
 		//y
 		Paint.FontMetrics metrics = paint.getFontMetrics();
@@ -330,19 +353,10 @@ public class ConsoDualSIM extends AppWidgetProvider {
 					case TelephonyManager.CALL_STATE_IDLE:
 						//Went to idle-  this is the end of a call.  What type depends on previous state(s)
 						Log.d(TAG, "STATE_IDLE");
-						if (lastState == TelephonyManager.CALL_STATE_RINGING)
-						{
-							//Ring but no pickup-  a miss
-							//onMissedCall(context, savedNumber, callStartTime);
-						}
-						else if (!isIncoming)
-						{
-//							onIncomingCallEnded(context, savedNumber, callStartTime, new Date());
-//						}
-//						else{
-							Log.d(TAG, "Fin d'appel");
-							UpdateAll(context);
-						}
+						if (lastState != TelephonyManager.CALL_STATE_RINGING && !isIncoming)
+							{
+								UpdateAll(context);
+							}
 						break;
 				}
 

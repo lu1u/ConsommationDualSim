@@ -1,312 +1,397 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:layout_margin="0dp"
               android:orientation="vertical"
               android:padding="0dp">
 
-    <ScrollView
+    <Button
+        android:id="@+id/add_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="false"
+        android:layout_gravity="bottom|center_horizontal"
+        android:text="@string/add_widget"
+        android:textAllCaps="false"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:orientation="horizontal"
+            android:padding="-2dp">
 
-            android:layout_margin="16dp"
-            android:orientation="vertical">
-
-
-            <RelativeLayout
-                android:id="@+id/layoutSIM1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/dialogborder"
-                android:elevation="4dp"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:text="@string/sim_1"/>
-
-                <EditText
-                    android:id="@+id/editTextNomSIM1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/textView"
-                    android:layout_alignBottom="@+id/textView"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignStart="@+id/editTextNbMinutesSIM1"
-                    android:ems="10"
-                    android:hint="@string/nom_de_l_abonnement"
-                    android:inputType="textPersonName"
-                    android:text="@string/sim1"/>
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/minutes"
-                    android:layout_alignBaseline="@+id/editTextNbMinutesSIM1"
-                    android:layout_alignBottom="@+id/editTextNbMinutesSIM1"
-                    android:layout_alignParentStart="true"/>
-
-                <EditText
-                    android:id="@+id/editTextNbMinutesSIM1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="@string/nb_de_minutes_de_l_abonnement"
-                    android:inputType="number"
-                    android:layout_below="@+id/editTextNomSIM1"
-                    android:layout_alignParentEnd="true"/>
-
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/editTextNbMinutesSIM1"
-                    android:text="@string/jour_de_d_but"/>
-
-                <Button
-                    android:id="@+id/buttonCouleurSIM1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/spinnerDebutSIM1"
-                    android:elevation="10dp"
-                    android:onClick="onClickCouleurSIM1"
-                    android:text="@string/couleur"
-                    android:textAllCaps="false"/>
-
-                <Spinner
-                    android:id="@+id/spinnerDebutSIM1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/editTextNbMinutesSIM1"
-                    android:layout_alignParentEnd="true"
-                    android:layout_toEndOf="@+id/textView1"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/layoutSIM2"
+            <ToggleButton
+                android:id="@+id/toggleButtonSIM1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/dialogborder"
-                android:padding="16dp">
+                android:layout_marginRight="4dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/tab_sim1"
+                android:onClick="onClickSIM1"
+                android:padding="-8dp"
+                android:text="@string/sim__1"
+                android:textOff="@string/sim__1"
+                android:textOn="@string/sim__1"/>
 
-                <Button
-                    android:id="@+id/buttonCouleurSIM2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/spinnerDebutSIM2"
-                    android:elevation="10dp"
-                    android:onClick="onClickCouleurSIM2"
-                    android:shadowColor="@android:color/black"
-                    android:text="@string/couleur"
-                    android:textAllCaps="false"/>
+            <ToggleButton
+                android:id="@+id/toggleButtonSIM2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/tab_sim2"
+                android:onClick="onClickSIM2"
+                android:text="@string/sim__2"
+                android:textOff="@string/sim__2"
+                android:textOn="@string/sim__2"/>
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:text="@string/sim_2"/>
 
-                <EditText
-                    android:id="@+id/editTextNomSIM2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/textView2"
-                    android:layout_alignBottom="@+id/textView2"
-                    android:layout_alignParentEnd="true"
-                    android:layout_toEndOf="@+id/textView6"
-                    android:ems="10"
-                    android:hint="@string/nom_de_l_abonnement"
-                    android:inputType="textPersonName"
-                    android:text="@string/sim2"/>
 
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/minutes"
-                    android:layout_alignBaseline="@+id/editTextNbMinutesSIM2"
-                    android:layout_alignBottom="@+id/editTextNbMinutesSIM2"
-                    android:layout_alignParentStart="true"/>
 
-                <EditText
-                    android:id="@+id/editTextNbMinutesSIM2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="@string/nb_de_minutes_de_l_abonnement"
-                    android:inputType="number"
-                    android:layout_below="@+id/editTextNomSIM2"
-                    android:layout_alignStart="@+id/editTextNomSIM2"
-                    android:layout_alignParentEnd="true"/>
-
-                <TextView
-                    android:id="@+id/textView6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/editTextNbMinutesSIM2"
-                    android:text="@string/jour_de_d_but"/>
-
-                <Spinner
-                    android:id="@+id/spinnerDebutSIM2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/editTextNbMinutesSIM2"
-                    android:layout_toEndOf="@+id/textView6"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
+            <ViewFlipper
+                android:id="@+id/viewFlipperSIMS"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/textView5"
+                <LinearLayout
+                    android:id="@+id/layoutSIM1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
                     android:layout_marginBottom="@dimen/marge_bas_cosmetique"
-                    android:layout_marginEnd="@dimen/marge_fin_cosmetique"
-                    android:text="Fond:"/>
+                    android:background="@drawable/background_sim1"
+                    android:elevation="4dp"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/textView5"
-                    android:layout_marginBottom="@dimen/marge_bas_cosmetique"
-                    android:layout_marginEnd="@dimen/marge_fin_cosmetique"
-                    android:text="@string/arrondi"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/textView7"
-                    android:layout_marginBottom="@dimen/marge_bas_cosmetique"
-                    android:layout_marginEnd="@dimen/marge_fin_cosmetique"
-                    android:text="@string/texte"/>
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/sim_1"/>
 
-                <SeekBar
-                    android:id="@+id/seekBarTransparence"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/textView5"
-                    android:layout_toEndOf="@+id/textView5"
-                    android:hapticFeedbackEnabled="true"
-                    />
+                        <EditText
+                            android:id="@+id/editTextNomSIM"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:ems="10"
+                            android:hint="@string/nom_de_l_abonnement"
+                            android:inputType="textPersonName"
+                            android:text="@string/sim1"/>
 
+                        <Button
+                            android:id="@+id/buttonCouleurSIM1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="10dp"
+                            android:onClick="onClickCouleurSIM1"
+                            android:text="@string/couleur"
+                            android:textAllCaps="false"/>
+                    </LinearLayout>
 
-                <SeekBar
-                    android:id="@+id/seekBarArrondi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignTop="@+id/textView7"
-                    android:layout_toEndOf="@+id/textView5"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.25"
+
+                            android:text="@string/minutes"/>
+
+                        <EditText
+                            android:id="@+id/editTextNbMinutesSIM1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:ems="10"
+                            android:inputType="number"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+
+                            android:text="@string/jour_de_d_but"/>
+
+                        <Spinner
+                            android:id="@+id/spinnerDebutSIM1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/subscription_id"/>
+
+                        <EditText
+                            android:id="@+id/editTextSubscriptionID1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:inputType="number"/>
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layoutSIM2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_alignStart="@+id/seekBarArrondi"
-                    android:layout_below="@+id/seekBarArrondi"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_marginBottom="@dimen/marge_bas_cosmetique"
+                    android:background="@drawable/background_sim2"
+                    android:elevation="4dp"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <ToggleButton
-                        android:id="@+id/toggleButtonGauche"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/hauteur_toggle_button"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:drawableTop="@drawable/format_align_left"
-                        android:onClick="onClickTextGauche"
-                        android:layout_weight="0.25"
-                        android:text=""
-                        android:textOff=" "
-                        android:textOn=" "/>
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                    <ToggleButton
-                        android:id="@+id/toggleButtonCentre"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/hauteur_toggle_button"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:drawableTop="@drawable/format_align_center"
-                        android:onClick="onClickTextCentre"
-                        android:layout_weight="0.25"
-                        android:text=""
-                        android:textOff=" "
-                        android:textOn=" "/>
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/sim_2"/>
 
-                    <ToggleButton
-                        android:id="@+id/toggleButtonDroite"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/hauteur_toggle_button"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_weight="0.25"
-                        android:drawableTop="@drawable/format_align_right"
-                        android:onClick="onClickTextDroite"
-                        android:text=""
-                        android:textOff=" "
-                        android:textOn=" "/>
+                        <EditText
+                            android:id="@+id/editTextNomSIM2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="@string/nom_de_l_abonnement"
+                            android:inputType="textPersonName"
+                            android:text="@string/sim2"/>
 
-                    <ToggleButton
-                        android:id="@+id/toggleButtonAuto"
+                        <Button
+                            android:id="@+id/buttonCouleurSIM2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="10dp"
+                            android:onClick="onClickCouleurSIM2"
+                            android:text="@string/couleur"
+                            android:textAllCaps="false"/>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/hauteur_toggle_button"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_weight="0.25"
-                        android:drawableTop="@drawable/format_align_justify"
-                        android:onClick="onClickTextAuto"
-                        android:text=""
-                        android:textOff=" "
-                        android:textOn=" "/>
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:text="@string/minutes"/>
+
+                        <EditText
+                            android:id="@+id/editTextNbMinutesSIM2"
+                            android:layout_width="128dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:inputType="number"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:text="@string/jour_de_d_but"/>
+
+                        <Spinner
+                            android:id="@+id/spinnerDebutSIM2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Subscription ID:"/>
+
+                        <EditText
+                            android:id="@+id/editTextSubscriptionID2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:inputType="number"/>
+                    </LinearLayout>
+
                 </LinearLayout>
-            </RelativeLayout>
 
-        </LinearLayout>
-    </ScrollView>
+            </ViewFlipper>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="fill_horizontal"
-        android:layout_weight="1"
-        android:background="#0000"
-        android:gravity="bottom|center">
 
-        <Button
-            android:id="@+id/add_button"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="@dimen/marge_bas_cosmetique"
+                android:layout_marginEnd="@dimen/marge_fin_cosmetique"
+                android:text="Fond:"/>
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView5"
+                android:layout_marginBottom="@dimen/marge_bas_cosmetique"
+                android:layout_marginEnd="@dimen/marge_fin_cosmetique"
+                android:text="@string/arrondi"/>
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView7"
+                android:layout_marginBottom="@dimen/marge_bas_cosmetique"
+                android:layout_marginEnd="@dimen/marge_fin_cosmetique"
+                android:text="@string/texte"/>
+
+            <SeekBar
+                android:id="@+id/seekBarTransparence"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView5"
+                android:layout_toEndOf="@+id/textView5"
+                android:hapticFeedbackEnabled="true"
+                />
+
+
+            <SeekBar
+                android:id="@+id/seekBarArrondi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/textView7"
+                android:layout_toEndOf="@+id/textView5"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:text="@string/add_widget"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/toggleButtonGauche"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/hauteur_toggle_button"
+                 android:layout_weight="0.25"
+                android:drawableTop="@drawable/format_align_left"
+                android:onClick="onClickTextGauche"
+                android:text=""
+                android:textOff=" "
+                android:textOn=" "/>
+
+            <ToggleButton
+                android:id="@+id/toggleButtonCentre"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/hauteur_toggle_button"
+                android:layout_weight="0.25"
+                android:drawableTop="@drawable/format_align_center"
+                android:onClick="onClickTextCentre"
+                android:text=""
+                android:textOff=" "
+                android:textOn=" "/>
+
+            <ToggleButton
+                android:id="@+id/toggleButtonDroite"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/hauteur_toggle_button"
+               android:layout_weight="0.25"
+                android:drawableTop="@drawable/format_align_right"
+                android:onClick="onClickTextDroite"
+                android:text=""
+                android:textOff=" "
+                android:textOn=" "/>
+
+            <ToggleButton
+                android:id="@+id/toggleButtonAuto"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/hauteur_toggle_button"
+                android:layout_weight="0.25"
+                android:drawableTop="@drawable/format_align_justify"
+                android:onClick="onClickTextAuto"
+                android:text=""
+                android:textOff=" "
+                android:textOn=" "/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickPreferences"
+            android:text="@string/avance"
             android:textAllCaps="false"/>
 
     </LinearLayout>
-</LinearLayout>
+
+</RelativeLayout>

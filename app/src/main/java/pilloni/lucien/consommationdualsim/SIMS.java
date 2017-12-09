@@ -4,27 +4,29 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.provider.CallLog;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import java.util.Calendar;
 
 /**
- * Created by lucien on 27/04/2017.
+ * Created by lucien on 27/04/2017
  */
 
 class SIMS {
-	//static final String TAG = "Database";
+	static final String TAG = "Database";
 	static private final String NUMEROS_GRATUITS = "( '666', '+33695600011' )";
 	static private final String[] COLONNES_COMPTE_APPELS = {android.provider.CallLog.Calls.DURATION};
 
 	/***
 	 * Retourne le nombre de minutes consommees depuis le debut
 	 * @param context
-	 * @param noSIM
+	 * @param subscriptionID
 	 * @param debutAbo
 	 * @return
 	 */
-	public static int getConsommation(Context context, int noSIM, int debutAbo)
+	public static int getConsommation(Context context, int subscriptionID, int debutAbo)
 	{
 		int nbSecTelephone = 0;
 		Calendar dateChangementAbonnement = getMoisPrecedent(Calendar.getInstance(), debutAbo);
@@ -33,77 +35,84 @@ class SIMS {
 		{
 			if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED)
 			{
-				return 0;
+
+				ActivityCompat.requestPermissions(ConsoDualSIMConfigureActivity._instance, new String[]{Manifest.permission.READ_CALL_LOG}, 0);
 			}
-/*
-			Cursor cur = context.getContentResolver().query(
+
+			Cursor c = context.getContentResolver().query(
 					android.provider.CallLog.Calls.CONTENT_URI,
-					null,null,							null,
-					android.provider.CallLog.Calls.DATE + " DESC");
+					null, null, null,
+					android.provider.CallLog.Calls.DATE + " ASC");
 
-			String res = "";
-			for (int i = 0;i < cur.getColumnCount();i++)
+			if (c != null)
 			{
-				res += formate(cur.getColumnName(i)) ;
-			}
-
-			Log.v(TAG, "--------------------------------------------------------------------------------------------------------------------");
-			Log.v(TAG, res);
-			Log.v(TAG, "--------------------------------------------------------------------------------------------------------------------");
-			cur.moveToFirst();
-			while (cur.moveToNext())
-			{
-				res = "";
-				for (int i = 0;i < cur.getColumnCount();i++)
+				String res = "";
+				for (int i = 0; i < c.getColumnCount(); i++)
 				{
-					res += formate(cur.getString(i));
+					res += formate(c.getColumnName(i));
 				}
 
+				Log.v(TAG, "--------------------------------------------------------------------------------------------------------------------");
 				Log.v(TAG, res);
-			}*/
-			Cursor cur = context.getContentResolver().query(
-					android.provider.CallLog.Calls.CONTENT_URI,
-					COLONNES_COMPTE_APPELS,
-					android.provider.CallLog.Calls.DATE + " >= " + dateChangementAbonnement.getTimeInMillis()
-							+ " AND " + android.provider.CallLog.Calls.TYPE + " = " + android.provider.CallLog.Calls.OUTGOING_TYPE
-							+ " AND SUBSCRIPTION_ID = '" + noSIM + "'"
-							+ " AND " + android.provider.CallLog.Calls.NUMBER + " NOT IN " + NUMEROS_GRATUITS,
-					null,
-					null);
-
-			if (cur != null)
-			{
-				final int DureeCol = cur.getColumnIndex(android.provider.CallLog.Calls.DURATION);
-
-				while (cur.moveToNext())
+				Log.v(TAG, "--------------------------------------------------------------------------------------------------------------------");
+				c.moveToFirst();
+				while (c.moveToNext())
 				{
-					long duration = cur.getLong(DureeCol);
-					nbSecTelephone += duration;
+					res = "";
+					for (int i = 0; i < c.getColumnCount(); i++)
+					{
+						res += formate(c.getString(i));
+					}
+
+					Log.v(TAG, res);
 				}
 
-				cur.close();
+				Cursor cur = context.getContentResolver().query(
+						android.provider.CallLog.Calls.CONTENT_URI,
+						COLONNES_COMPTE_APPELS,
+						android.provider.CallLog.Calls.DATE + " >= " + dateChangementAbonnement.getTimeInMillis()
+								+ " AND " + android.provider.CallLog.Calls.TYPE + " = " + android.provider.CallLog.Calls.OUTGOING_TYPE
+								+ " AND " + CallLog.Calls.PHONE_ACCOUNT_ID + " = '" + subscriptionID + "'"
+								+ " AND " + android.provider.CallLog.Calls.NUMBER + " NOT IN " + NUMEROS_GRATUITS,
+						null,
+						null);
+
+				if (cur != null)
+				{
+					final int DureeCol = cur.getColumnIndex(android.provider.CallLog.Calls.DURATION);
+
+					while (cur.moveToNext())
+					{
+						long duration = cur.getLong(DureeCol);
+						nbSecTelephone += duration;
+					}
+
+					cur.close();
+				}
+				c.close();
 			}
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
+
 		return nbSecTelephone / 60;
 	}
 
-	/*
-		private static String formate(String v)
-		{
-			if( v == null)
-				v = "          ";
-			if ( v.length()> 10)
-				return v.substring(0,10) + '|';
 
-			while (v.length()< 10)
-				v += " ";
+	private static String formate(String v)
+	{
+		if (v == null)
+			v = "          ";
+		if (v.length() > 15)
+			return v.substring(0, 15) + '|';
 
-			return v + '|';
-		}
-	*/
+		while (v.length() < 15)
+			v += " ";
+
+		return v + '|';
+	}
+
 	public static void MoisPrecedent(Calendar date)
 	{
 		if (date.get(Calendar.MONTH) > Calendar.JANUARY)

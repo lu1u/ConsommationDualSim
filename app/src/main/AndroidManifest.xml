@@ -20,17 +20,17 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/conso_dual_sim_info"/>
         </receiver>
-
-        <activity
+                <activity
             android:name=".ConsoDualSIMConfigureActivity"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
-        <activity android:name=".colorpicker.ColorPickerActivity">
+                <activity android:name=".colorpicker.ColorPickerActivity">
         </activity>
-
+        <activity android:name=".PreferencesActivity">
+        </activity>
     </application>
 
 </manifest>

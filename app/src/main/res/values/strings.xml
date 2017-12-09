@@ -19,4 +19,20 @@
     <string name="texte">Texte:</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="configure">Configure</string>
+    <string name="pref_jauges_degradees">jauges_degradees</string>
+    <string name="pref_inset_jauge_date">inset_jauge_date</string>
+    <string name="pref_inset_jauge_consommation">inset_jauge_consommation</string>
+    <string name="pref_inset_jauge">inset_jauge</string>
+    <string name="pref_fond_noir">fond_noir</string>
+    <string name="avance">Avancé</string>
+    <string name="title_activity_configure">Conso Dual Sim Configuration</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_configuration">ConfigurationActivity</string>
+    <string name="sim__1">SIM 1</string>
+    <string name="sim__2">SIM 2</string>
+    <string name="subscription_id">Subscription ID:</string>
 </resources>
